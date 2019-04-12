@@ -1,2 +1,4 @@
-.vscode/
 *.out
+a.out.dSYM/
+input
+.vscode/

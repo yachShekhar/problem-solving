@@ -27,71 +27,75 @@ template <typename T> string to_str(T str){stringstream stream; stream << str; r
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-class Graph{
-	int V;
-	list<pair<int, PII> > edges;
-	public:
-		Graph(int V);
-		void addEdge(int U, int V, int W);
-		void kruskalMST();
-};
-
-Graph::Graph(int V){
-	this->V = V;	
-}
-
-void Graph::addEdge(int U, int V, int W){
-	edges.push_back(make_pair(W, make_pair(U, V)));
-}
-
-void Graph::kruskalMST(){
-	sort(edges.begin(), edges.end());
-	DisjointSet d(V);
-	FOREACH(it, edges){
-		int w = (*it).first;
-		int u = (*it).second.first;
-		int v = (*it).second.second;
-
-		int fu = d.find(u);
-		int fv = d.find(v);
-		if(fu != fv){
-			d.merge(fu, fv);
-		}
-	}
-}
-
-class DisjointSet{
+class DisjointSet {
 	int *parent;
 	int V;
 	public:
-		DisjointSet(int V);
-		int find(int v);
-		void merge(int u, int v);
+		DisjointSet(int V){
+			parent = new int[V];
+			this->V = V;
+			FOR(i, 0, sizeof(parent)){
+				parent[i] = -1;
+			}
+		}
+		int find(int v){
+			if(parent[v] == -1){
+				return v;
+			}
+			return find(parent[v]);
+		}
+		void merge(int u, int v){
+			int uSet = find(u);
+			int vSet = find(v);
+			if (uSet != vSet) {
+				parent[v] = u;
+			}
+		}
 };
 
-DisjointSet::DisjointSet(int V){
-	parent = new int[V];
-	this->V = V;
-	FOR(i, 0, sizeof(parent)){
-		parent[i] = -1;
-	}
-}
+struct Edge {
+	int U, V, W;
+ 	Edge(int U, int V, int W) : U(U), V(V), W(W){ } 
+}; 
+  
+struct CompareWeight { 
+    bool operator()(Edge const& p1, Edge const& p2) { 
+        return p1.W > p2.W; 
+    } 
+}; 
 
-int DisjointSet::find(int v){
-	if(parent[v] == -1){
-		return v;
-	}
-	return find(parent[v]);
-}
+class Graph{
+	int V;
+	priority_queue<Edge, vector<Edge>, CompareWeight> pq;
+	public:
+		Graph(int V){
+			this->V = V;
+		}
+		void addEdge(const int &U, const int &V, const int &W){
+			Edge edge(U, V, W);
+			pq.push(edge);
+		}
+		void kruskalMST(){
+			int msw = 0;
+			DisjointSet d(V);
+			while(!pq.empty()){
+				Edge it = pq.top();
+				pq.pop();
+				int u = it.U;
+				int v = it.V;
+				int w = it.W;
+				int fu = d.find(u);
+				int fv = d.find(v);
+				if(fu != fv){
+					d.merge(fu, fv);
+					msw += w;
+					cout<<u<<" - "<<v<<endl;
+				}
+			}
+			cout<<"total weight: "<<msw<<endl;
+		}
+};
 
-void DisjointSet::merge(int u, int v){
-	int uSet = find(u);
-	int vSet = find(v);
-
-	if (uSet != vSet) {
-		parent[v] = u;
-	}
-}
 
 int main(){
 	ios_base::sync_with_stdio(false);
@@ -101,8 +105,14 @@ int main(){
 	
 	// d.merge(0, 1);
 	// d.merge(1, 2);
+	// d.merge(2, 0);
+	// // int f = d.find(2);
+	// int *p = d.getParent();
+	// FOR(i, 0, 9){
+	// 			if(p[i] != -1)
+	// 				cout<<p[i]<<" ";
+	// }
 
-	// int f = d.find(2);
 
 	Graph g(9); 
   
