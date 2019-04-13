@@ -26,74 +26,64 @@ template<class T> T LCM(T a, T b ){return (a*b)/gcd(a,b);}
 template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
-
-class Graph{
-	int v;
+class Graph {
+	int V;
 	list<int> *adj;
 	public:
-		Graph(int v);
-		void addEdge(int v, int w);
-		void dfs(int v, bool visited[]);
-		int find_mother();
-};
-
-Graph::Graph(int v){
-	this->v = v;
-	adj = new list<int>[v];
-};
-
-void Graph::addEdge(int v, int w){
-	this->adj[v].push_back(w);
-}
-
-void Graph::dfs(int v, bool visited[]){
-	visited[v] = true;
-	FOREACH(it, adj[v]){
-		if(!visited[*it]){
-			visited[*it] = true;
-			dfs(*it, visited);
-		}	
-	}
-}
-
-int Graph::find_mother(){
-	int mv;
-	bool visited[v];
-	FOR(i, 0, v){
-		visited[i] = false;
-	}
-	FOR(i, 0, v){
-		if(!visited[i]){
-			dfs(i, visited);
-			mv = i;
+		Graph(int V){
+			this->V = V;
+			adj = new list<int>[V];
 		}
-	}
-	FOR(i, 0, v){
-		visited[i] = false;
-	}
-	dfs(mv, visited);
-	FOR(i, 0, v){
-		if(!visited[i]){
-			return -1;
+
+		void addEdge(int u, int v){
+			adj[u].push_back(v);
 		}
-	}
-	return mv;	
-}
+
+		void dfs(int v, vector<bool> &visited){
+			visited[v] = true;
+			FOREACH(it, adj[v]){
+				if(!visited[*it]){
+					dfs(*it, visited);
+				}
+			}
+		}
+
+		int findMother(){
+			int mv = 0;
+			vector<bool> visited(V, false);
+			FOR(i, 0, V){
+				if(!visited[i]){
+					dfs(i, visited);
+					mv = i;
+				}
+			}
+		
+			fill(visited.begin(), visited.end(), false);
+			dfs(mv, visited);
+			FOR(i, 0, V){
+				if(!visited[i]){
+					return -1;
+				}
+			}
+			return mv;
+		}
+};
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	// Create a graph given in the above diagram
-   	Graph g(7);
-	g.addEdge(0, 1);
-	g.addEdge(0, 2);
-	g.addEdge(1, 3);
-	g.addEdge(4, 1);
-	g.addEdge(6, 4);
-	g.addEdge(5, 6);
-	g.addEdge(5, 2);
-	g.addEdge(6, 0);
-	cout << "A mother vertex is " << g.find_mother();
 
+	Graph g(7); 
+    g.addEdge(0, 1); 
+    g.addEdge(0, 2); 
+    g.addEdge(1, 3); 
+    g.addEdge(4, 1); 
+    g.addEdge(6, 4); 
+    g.addEdge(5, 6); 
+    g.addEdge(5, 2); 
+    g.addEdge(6, 0); 
+  
+    cout << "A mother vertex is " << g.findMother(); 
+  
 	return 0;
 }
