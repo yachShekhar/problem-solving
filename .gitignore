@@ -2,3 +2,4 @@
 a.out.dSYM/
 input
 .vscode/
+.DS_Store

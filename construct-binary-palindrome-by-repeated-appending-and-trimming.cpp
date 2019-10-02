@@ -1,4 +1,3 @@
-//http://codeforces.com/problemset/problem/96/A
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -27,23 +26,49 @@ template<class T> T LCM(T a, T b ){return (a*b)/gcd(a,b);}
 template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
+// function to apply DFS 
+void dfs(int parent, int ans[], vector<int> connectchars[]) 
+{ 
+    // set the parent marked 
+    ans[parent] = 1; 
+  
+    // if the node has not been visited set it and 
+    // its children marked 
+    for (int i = 0; i < connectchars[parent].size(); i++) { 
+        if (!ans[connectchars[parent][i]]) 
+            dfs(connectchars[parent][i], ans, connectchars); 
+    } 
+} 
+  
+void printBinaryPalindrome(int n, int k) 
+{ 
+    int arr[n], ans[n]; 
+  
+    // link which digits must be equal 
+    vector<int> connectchars[k]; 
+  
+    for (int i = 0; i < n; i++) 
+        arr[i] = i % k; 
+  
+    // connect the two indices 
+    for (int i = 0; i < n / 2; i++) { 
+        connectchars[arr[i]].push_back(arr[n - i - 1]); 
+        connectchars[arr[n - i - 1]].push_back(arr[i]); 
+    } 
+  
+    // set everything connected to  
+    // first character as 1 
+    dfs(0, ans, connectchars); 
+  
+    for (int i = 0; i < n; i++) 
+        cout << ans[arr[i]]; 
+} 
+  
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 
-int main(int argc, char **argv){
-	string s;
-	cin>>s;
-	char prev = '0';
-	int count = 0;
-	FOR(i, 0, s.size()){
-		if(prev == s[i]){
-			count++;
-		}else{
-			count = 1;
-			prev = s[i];
-		}
-		if(count == 7){
-			break;
-		}
-	}
-	string sol = count == 7 ? "YES" : "NO";
-	cout<<sol<<endl;
+	int n = 10, k = 4; 
+    printBinaryPalindrome(n, k); 
+    return 0; 
 }

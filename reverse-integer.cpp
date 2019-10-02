@@ -1,4 +1,4 @@
-//http://codeforces.com/problemset/problem/96/A
+//https://leetcode.com/problems/reverse-integer/
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -12,38 +12,55 @@ using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
 #define TOLOWER(str) transform(str.begin(), str.end(),str.begin(), ::tolower)
 typedef long long LL;
-typedef long long ULL;
-typedef pair<int, int> PII;
-typedef vector<int> VI;
-typedef vector<long> VL;
-typedef vector<long long> VLL;
-typedef vector<string> VS;
-typedef vector<char> VC;
+typedef unsigned int UI;
 template < class T > T MAX( T a, T b ){return ( a > b ? a : b );}
 template < class T > T MIN( T a, T b ){return ( a < b ? a : b );}
 template<class T> T GCD(T a,T b){if(b == 0)return a;return gcd(b,a%b);}
 template<class T> T LCM(T a, T b ){return (a*b)/gcd(a,b);}
-//Convert int to string
-template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}
+
+string getline(){string inputstr; while (inputstr.length()==0 ){ getline(cin, inputstr);} return inputstr;}//read line from stdin
+template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}//Convert int to string
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int main(int argc, char **argv){
-	string s;
-	cin>>s;
-	char prev = '0';
-	int count = 0;
-	FOR(i, 0, s.size()){
-		if(prev == s[i]){
-			count++;
-		}else{
-			count = 1;
-			prev = s[i];
-		}
-		if(count == 7){
-			break;
-		}
-	}
-	string sol = count == 7 ? "YES" : "NO";
-	cout<<sol<<endl;
+LL solve(LL x){
+    int sign = x < 0 ? -1 : 1;
+    x = abs(x);
+    LL res = 0;
+    while(x != 0){
+        int r = x % 10;
+        res = res * 10 + r;
+        x /= 10;
+    }
+	return res * sign;
 }
+
+int main(){
+    freopen("1-input", "r", stdin); 
+    freopen("2-output", "w", stdout); 
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int t;
+	scanf("%d", &t);
+	while(t--){
+		LL l;
+		cin>>l;
+		LL output = solve(l);
+		LL expected;
+        cin>>expected;
+    	printf("==============testcase: %d===========\n", t);
+		cout<<"===>output:"<<output<<" expected:"<<expected<<" result:"<<(output==expected ? "true" : "false")<<endl;
+	}
+	return 0;
+}
+
+
+// 1
+// -577272372
+// -273272775
+// 1534236469
+// 9646324351
+// -123
+// -321
+// 120
+// 21

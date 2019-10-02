@@ -11,7 +11,13 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int solve(int a){
+int solve(int dividend, int divisor, int signq, int sign2){
+
+}
+
+int solve(int dividend, int divisor){
+    int sign1 = dividend > 0 ? +1 : -1;
+    int sign2 = divisor > 0 ? +1 : -1;
 	return 0;
 }
 
@@ -19,13 +25,9 @@ int solve(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	int l;
-	scanf("%d", &l);
-	vector<int> v(l);
-	for(int i = 0; i < l; i++){
-		scanf("%d", &v[i]);
-	}
-	return solve(0);
+    int dividend, divisor;
+    cin>>dividend>>divisor;
+	return solve(dividend, divisor);
 }
 int main(){
     freopen("1-input", "r", stdin); 
@@ -43,3 +45,18 @@ int main(){
 	return 0;
 }
 
+// 7
+// 110
+// 1
+// 199
+// 2
+// 12
+// 2
+// 226
+// 3
+// 200
+// 0
+// 0
+// 0
+// 201
+// 1

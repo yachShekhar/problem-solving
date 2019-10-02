@@ -1,4 +1,4 @@
-//http://codeforces.com/problemset/problem/96/A
+//https://leetcode.com/problems/palindrome-number/
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -12,38 +12,62 @@ using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
 #define TOLOWER(str) transform(str.begin(), str.end(),str.begin(), ::tolower)
 typedef long long LL;
-typedef long long ULL;
-typedef pair<int, int> PII;
-typedef vector<int> VI;
-typedef vector<long> VL;
-typedef vector<long long> VLL;
-typedef vector<string> VS;
-typedef vector<char> VC;
 template < class T > T MAX( T a, T b ){return ( a > b ? a : b );}
 template < class T > T MIN( T a, T b ){return ( a < b ? a : b );}
 template<class T> T GCD(T a,T b){if(b == 0)return a;return gcd(b,a%b);}
 template<class T> T LCM(T a, T b ){return (a*b)/gcd(a,b);}
-//Convert int to string
-template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}
+
+string getline(){string inputstr; while (inputstr.length()==0 ){ getline(cin, inputstr);} return inputstr;}//read line from stdin
+template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}//Convert int to string
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int main(int argc, char **argv){
-	string s;
-	cin>>s;
-	char prev = '0';
-	int count = 0;
-	FOR(i, 0, s.size()){
-		if(prev == s[i]){
-			count++;
-		}else{
-			count = 1;
-			prev = s[i];
-		}
-		if(count == 7){
-			break;
-		}
-	}
-	string sol = count == 7 ? "YES" : "NO";
-	cout<<sol<<endl;
+int solve(int x){
+    if(x < 0) return false;
+    int rev = 0, temp = x;
+    while(temp != 0){
+        rev = (rev * 10) + (temp % 10);
+        temp /= 10;
+    }
+
+	return rev == x;
 }
+
+int main(){
+    freopen("1-input", "r", stdin); 
+    freopen("2-output", "w", stdout); 
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int t;
+	scanf("%d", &t);
+	while(t--){
+		int l;
+		scanf("%d", &l);
+		int output = solve(l);
+		bool expected;
+        cin>>expected;
+    	printf("==============testcase: %d===========\n", t);
+		cout<<"===>output:"<<output<<" expected:"<<expected<<" result:"<<(output==expected ? "true" : "false")<<endl;
+	}
+	return 0;
+}
+
+
+
+// 8
+// -121
+// 0
+// 0
+// 1
+// 1
+// 1
+// 9
+// 1
+// 10
+// 0
+// 11
+// 1
+// 121
+// 1
+// 234
+// 0

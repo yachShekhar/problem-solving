@@ -1,4 +1,3 @@
-//http://codeforces.com/problemset/problem/96/A
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -28,22 +27,50 @@ template <typename T> string to_str(T str){stringstream stream; stream << str; r
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int main(int argc, char **argv){
-	string s;
-	cin>>s;
-	char prev = '0';
-	int count = 0;
-	FOR(i, 0, s.size()){
-		if(prev == s[i]){
-			count++;
-		}else{
-			count = 1;
-			prev = s[i];
-		}
-		if(count == 7){
-			break;
-		}
-	}
-	string sol = count == 7 ? "YES" : "NO";
-	cout<<sol<<endl;
+
+VI LIS(int l, VI &v){
+    VI dp(l, 0);
+    if(v.size() == 0) return dp;
+    FOR(i, 1, l){
+        if(v[i] == v[i - 1]){
+            dp[i] = dp[i - 1] + 1;
+        }else{
+            dp[i] = dp[i - 1];
+        }
+    }
+    return dp;
 }
+
+//length of array having longest increasing decreasing subsequence
+int solve(int l, VI &v){
+    VI lis = LIS(l, v);
+    reverse(begin(v), end(v));
+    VI rlis = LIS(l, v);
+    reverse(begin(rlis), end(rlis));
+
+    int mx = 0;
+    FOR(i, 0, l){
+        mx = MAX(mx, lis[i] + rlis[i] - 1 - i);
+    }
+    return mx;
+}
+
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int t, l;
+	cin>>t>>l;
+    vector<int> v(l);
+	while(t--){
+        FOR(i, 0, l){
+            int d;
+            cin>>v[i];
+        }	  
+	}
+    FOR(i, 0, l){
+        cout<<v[i]<<endl;
+    }
+    cout<<solve(l, v)<<endl;
+	return 0;
+}
+

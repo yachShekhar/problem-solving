@@ -1,4 +1,5 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+
 using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
 #define TOLOWER(str) transform(str.begin(), str.end(),str.begin(), ::tolower)
@@ -11,35 +12,40 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int solve(int a){
-	return 0;
+#define first x;
+#define second y;
+typedef pair<int, int> PII;
+
+class Line {
+    public :
+        PII left;
+        PII right;
+        Line(PII left, PII right){
+            this->left = left;
+            this->right = right;
+        }
+};
+
+map<PII, Line*> cache;
+void intersection(vector<Line*> &line) {
+    vector<PII> q;
+    for(int i = 0; i < line.size(); i++) {
+        q.push_back(line.at(i)->left);
+        q.push_back(line.at(i)->right);
+        cache[line.at(i)->right] = line.at(i);
+    }
+    sort(q.begin(), q.end(), less<int>());
+    for(int i = 0; i < q.size(); i++) {
+        PII point = q.at(i);
+    }
 }
 
-int solve(){
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	int l;
-	scanf("%d", &l);
-	vector<int> v(l);
-	for(int i = 0; i < l; i++){
-		scanf("%d", &v[i]);
-	}
-	return solve(0);
+int main() {
+    Line *AC = new Line(make_pair(1, 4), make_pair(5, 2));
+    Line *BD = new Line(make_pair(2, 1), make_pair(7, 7));
+    vector<Line*> line(2);
+    line[0] = AC;
+    line[1] = BD;
+    intersection(line);
+    return 0;
 }
-int main(){
-    freopen("1-input", "r", stdin); 
-    freopen("2-output", "w", stdout); 
-	
-	int t;
-	scanf("%d", &t);
-	while(t--){
-		int output = solve();
-		int expected;
-        cin>>expected;
-    	printf("==============testcase: %d===========\n", t);
-		cout<<"===>output:"<<output<<" expected:"<<expected<<" result:"<<(output==expected ? "true" : "false")<<endl;
-	}
-	return 0;
-}
-

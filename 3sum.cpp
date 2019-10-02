@@ -1,3 +1,4 @@
+//https://leetcode.com/problems/3sum/
 #include<bits/stdc++.h>
 using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
@@ -11,7 +12,31 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int solve(int a){
+int solve(vector<int> &v){
+	if(v.empty()) return 0;
+	sort(v.begin(), v.end(), less<int>());
+	vector<vector<int> > res;
+   	int sz = v.size();
+   	for(int i = 0; i < sz; i++) {
+	   int target = v[i];
+	   int left = i + 1, right = sz - 1;
+	   while(left < right) {
+		   int sum = v[left] + v[right];
+			if(-1 * target == v[left] + v[right]) {
+				vector<int> row(3);
+			   	row[0] = target;
+			   	row[1] = v[left];
+			   	row[2] = v[right];
+			   	res.push_back(row);
+		   		int leftValue = v[left], rightValue = v[right];
+				while(left < sz && v[left] == leftValue) left++;
+				while(right > i && v[right] == rightValue) right--;
+			}else if(sum < -1 * target){
+				left++;
+			} else right--;
+	   }
+	   while(i + 1 < sz && v[i + 1] == target) i++;
+   } 
 	return 0;
 }
 
@@ -25,7 +50,7 @@ int solve(){
 	for(int i = 0; i < l; i++){
 		scanf("%d", &v[i]);
 	}
-	return solve(0);
+	return solve(v);
 }
 int main(){
     freopen("1-input", "r", stdin); 
@@ -43,3 +68,10 @@ int main(){
 	return 0;
 }
 
+
+
+// 1
+// 4
+// 1 -1 -1 0
+// 6
+// -1 0 1 2 -1 -4

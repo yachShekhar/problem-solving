@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -23,33 +24,32 @@ template < class T > T MIN( T a, T b ){return ( a < b ? a : b );}
 template<class T> T GCD(T a,T b){if(b == 0)return a;return gcd(b,a%b);}
 template<class T> T LCM(T a, T b ){return (a*b)/gcd(a,b);}
 //Convert int to string
-template <typename T> string to_str(T t){stringstream stream; stream << t; return stream.str();}
-template <typename T>int to_int(T t){int val; stringstream stream; stream<<t; stream>>val; return val;}
+template <typename T> string to_str(T str){stringstream stream; stream << str; return stream.str();}
+template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
+int solve(string s){
+    if(s.empty()) return 0;
+    map<char, int> mp;
+    int mx = 1; 
+    int longestVal = 0;
+    int i = 0;
+    int lastMatchedIndex = 0;
+    for(char& c : s) {
+        if(mp.find(c) != mp.end() && mp[c] >= lastMatchedIndex){
+            longestVal = i - mp[c];
+            lastMatchedIndex = mp[c];
+        }else{
+            longestVal = (i - 1 < 0 ? 0 : longestVal) + 1;
+        }
+        mx = MAX(mx, longestVal);
+        mp[c] = i;
+        i++;
+    }
+    return mx;
+}
+
 int main(){
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	int lno[] = {4, 7, 47, 74, 444, 447, 477, 744, 747, 777};
-	ULL no;
-	cin>>no;
-	bool isLuckyNo = false;
-	for(int l : lno){
-		if(no < l){
-			break;
-		}else if(no == l){
-			isLuckyNo = true;
-		}else if(no >= 4 && no % l == 0){
-			isLuckyNo = true;	
-		}
-		if(isLuckyNo){
-			break;
-		}	
-	}
-	if(isLuckyNo){
-		cout<<"YES"<<endl;
-	}else{
-		cout<<"NO"<<endl;
-	}
-	return 0;
+    cout<<solve("abba")<<endl;
+    return 0;
 }

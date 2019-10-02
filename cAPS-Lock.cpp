@@ -1,4 +1,4 @@
-//http://codeforces.com/problemset/problem/96/A
+//https://codeforces.com/problemset/problem/131/A
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -28,22 +28,28 @@ template <typename T> string to_str(T str){stringstream stream; stream << str; r
 template <typename T>int to_int(T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(string &s,char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int main(int argc, char **argv){
-	string s;
-	cin>>s;
-	char prev = '0';
-	int count = 0;
-	FOR(i, 0, s.size()){
-		if(prev == s[i]){
-			count++;
-		}else{
-			count = 1;
-			prev = s[i];
-		}
-		if(count == 7){
-			break;
-		}
-	}
-	string sol = count == 7 ? "YES" : "NO";
-	cout<<sol<<endl;
+void solve(){
+    
+}
+
+int main(){
+	int i,l=0;
+    char s[100];
+    scanf("%s",s);
+    for(i=1; i<strlen(s); i++) {
+        if(s[i]>=65&&s[i]<=90) {
+            l++;
+        }
+    }
+    if(l == strlen(s) - 1) {
+        for(i=0; i<strlen(s); i++) {
+            if(s[i] >= 65 && s[i] <= 90)
+            s[i] = 97 + s[i] - 65;
+            else if(s[i] >= 97 && s[i] <= 122)
+            s[i]= 65 + s[i] - 97;
+        }
+    }
+
+    printf("%s\n",s);
+    return 0;
 }

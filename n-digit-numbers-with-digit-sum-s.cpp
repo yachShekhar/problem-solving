@@ -1,4 +1,6 @@
-#include<bits/stdc++.h>
+//https://www.interviewbit.com/problems/n-digit-numbers-with-digit-sum-s-/
+#include <bits/stdc++.h>
+
 using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
 #define TOLOWER(str) transform(str.begin(), str.end(),str.begin(), ::tolower)
@@ -11,22 +13,39 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int solve(int a){
-	return 0;
+typedef vector<vector<int> > VVI;
+const int MODULO = 1000000007;
+
+int solve(VVI &dp, int N, int S, int start){
+    if(9 * N < S) return 0;
+    if(N == 1) return 1;
+    if(dp[N][S] != 0){
+        return dp[N][S];
+    }
+    for(int i = start; i <= MIN(9, S); i++){
+        int result = solve(dp, N - 1, S - i, 0);
+        // if(result == 0) dp[N][S] = 0;
+        dp[N][S] += result;
+        dp[N][S] = dp[N][S] % MODULO;
+    }
+    return dp[N][S];
+}
+
+int solve(int N, int S){
+    if(S == 0) return 0;
+    VVI dp(N + 1, vector<int>(S + 1, 0));
+    return solve(dp, N, S, 1);
 }
 
 int solve(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	int l;
-	scanf("%d", &l);
-	vector<int> v(l);
-	for(int i = 0; i < l; i++){
-		scanf("%d", &v[i]);
-	}
-	return solve(0);
+	int N, S;
+    cin>>N>>S;
+	return solve(N, S);
 }
+
 int main(){
     freopen("1-input", "r", stdin); 
     freopen("2-output", "w", stdout); 
@@ -43,3 +62,18 @@ int main(){
 	return 0;
 }
 
+
+
+
+
+// 5
+// 2 18
+// 1
+// 3 1
+// 1
+// 2 4
+// 4
+// 1 9
+// 1
+// 1 0
+// 0

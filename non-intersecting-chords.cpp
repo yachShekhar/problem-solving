@@ -11,8 +11,20 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
+vector<int> dp(1000, 0);
+long long MODULO = 1000000007;
 int solve(int a){
-	return 0;
+        if(a <= 0){
+                return 1;
+        }
+        if(dp[a] != 0){
+               return dp[a];
+        }
+        for(int i = 1; i <= a; i++){
+                dp[a] += ((solve(i - 1) % MODULO) * (solve(a - i) % MODULO)) % MODULO;
+                dp[a] %= MODULO;
+        }
+        return dp[a];
 }
 
 int solve(){
@@ -21,12 +33,12 @@ int solve(){
 	cout.tie(NULL);
 	int l;
 	scanf("%d", &l);
-	vector<int> v(l);
-	for(int i = 0; i < l; i++){
-		scanf("%d", &v[i]);
-	}
-	return solve(0);
+	dp[0] = 0;
+    dp[1] = 1;
+    // dp[2] = 2;
+	return solve(l);
 }
+
 int main(){
     freopen("1-input", "r", stdin); 
     freopen("2-output", "w", stdout); 
@@ -43,3 +55,12 @@ int main(){
 	return 0;
 }
 
+// 1
+// 4
+// 14
+// 2
+// 2
+// 1
+// 0
+// 2
+// 1

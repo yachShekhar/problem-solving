@@ -1,4 +1,6 @@
-#include<bits/stdc++.h>
+//https://www.interviewbit.com/problems/min-jumps-array/
+#include <bits/stdc++.h>
+
 using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
 #define TOLOWER(str) transform(str.begin(), str.end(),str.begin(), ::tolower)
@@ -11,26 +13,42 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int solve(int a){
-	return 0;
+void solve(vector<int> &v, vector<int> &dp, int k){
+    for(int i = 1; i <= v[k] && k + i < v.size(); i++) {
+        if(dp[k + i] > dp[k] + 1) {
+            dp[k + i] = dp[k] + 1;
+            solve(v, dp, k + i);
+        };
+    }
+}
+
+int solve(vector<int> &v) {
+    if(v.size() == 1) return 0;
+    if(v.size() == 0 || v[0] == 0) return -1;
+    vector<int> dp(v.size(), INT_MAX);
+    dp[0] = 0;
+    solve(v, dp, 0);
+	return dp[v.size() - 1] == INT_MAX ? -1 : dp[v.size() - 1];
 }
 
 int solve(){
-	ios_base::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
+
 	int l;
 	scanf("%d", &l);
 	vector<int> v(l);
 	for(int i = 0; i < l; i++){
 		scanf("%d", &v[i]);
 	}
-	return solve(0);
+	return solve(v);
 }
+
 int main(){
     freopen("1-input", "r", stdin); 
     freopen("2-output", "w", stdout); 
-	
+
 	int t;
 	scanf("%d", &t);
 	while(t--){

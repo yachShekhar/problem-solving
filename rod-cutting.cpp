@@ -1,3 +1,4 @@
+//https://www.interviewbit.com/problems/rod-cutting/
 #include<bits/stdc++.h>
 using namespace std;
 #define TOUPPER(str) transform(str.begin(), str.end(),str.begin(), ::toupper)
@@ -11,32 +12,43 @@ string to_str(const vector<int> &v, const char delim){string s; for(int i = 0; i
 template <typename T>int to_int(const T num){int val; stringstream stream; stream<<num; stream>>val; return val;}
 vector<string> split(const string &s,const char delim){vector<string> elems;stringstream ss(s); string item;while(getline(ss,item,delim)){elems.push_back(item);}return elems;}
 
-int solve(int a){
-	return 0;
+void solve(vector<int> &v, int start, int end, int N, vector<int> &res) {
+    if(start >= end) return;
+    int mid = (N - start) / 2;
+    int min = INT_MAX, index = 0;
+    for(int i = end - 1; i >= start; i--) {
+        if(abs(v[i] - mid) < min) {
+            min = abs(v[i] - mid) ;
+            index = i;
+        }
+    }
+    res.push_back(v[index]);
+    solve(v, start, index, v[index], res);
+    solve(v, index + 1, end, N, res);
 }
 
-int solve(){
+vector<int> solve(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	int l;
-	scanf("%d", &l);
-	vector<int> v(l);
-	for(int i = 0; i < l; i++){
+	int l, n;
+	scanf("%d%d", &l, &n);
+	vector<int> v(n);
+	for(int i = 0; i < n; i++){
 		scanf("%d", &v[i]);
 	}
-	return solve(0);
+    vector<int> indexes;
+	solve(v, 0, v.size(), l, indexes);
+    return indexes;
 }
 int main(){
     freopen("1-input", "r", stdin); 
     freopen("2-output", "w", stdout); 
-	
 	int t;
 	scanf("%d", &t);
 	while(t--){
-		int output = solve();
-		int expected;
-        cin>>expected;
+		string output = to_str(solve(), ' ');
+		string expected = getline();
     	printf("==============testcase: %d===========\n", t);
 		cout<<"===>output:"<<output<<" expected:"<<expected<<" result:"<<(output==expected ? "true" : "false")<<endl;
 	}
